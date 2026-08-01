@@ -18,6 +18,9 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     outputs:
       image-uri: ${{ steps.image.outputs.image-uri }}
@@ -27,6 +30,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Configure AWS credentials
+        # The IAM role trust policy must allow this repository and branch to assume it via OIDC.
         uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::767469526309:role/rajubk-github-action-role
