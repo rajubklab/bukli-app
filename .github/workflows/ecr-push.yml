@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: ap-south-1
-  ECR_REPOSITORY: rajubk-bukli-app-repo
-  EKS_CLUSTER_NAME: rajubk-eks
+  AWS_REGION: ${{ vars.AWS_REGION }} # Change to your AWS region.
+  ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }} # Change to your ECR repository name.
+  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME }} # Change to your EKS cluster name.
 
 permissions:
   contents: read
@@ -18,24 +18,18 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
 
     outputs:
       image-uri: ${{ steps.image.outputs.image-uri }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials
-        # The IAM role trust policy must allow this repository and branch to assume it via OIDC.
-        uses: aws-actions/configure-aws-credentials@v5
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::767469526309:role/rajubk-github-action-role
-          audience: sts.amazonaws.com
-          role-session-name: github-actions-${{ github.run_id }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Ensure ECR repository exists
