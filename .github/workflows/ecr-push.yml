@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: ap-south-1 # Change to your AWS region.
+  AWS_REGION: ap-south-1
   ECR_REPOSITORY: rajubk-bukli-app-repo
   EKS_CLUSTER_NAME: rajubk-eks
 
