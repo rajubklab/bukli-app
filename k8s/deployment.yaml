@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bukli-app
+  labels:
+    app: bukli-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bukli-app
+  template:
+    metadata:
+      labels:
+        app: bukli-app
+    spec:
+      containers:
+        - name: bukli-app
+          image: 767469526309.dkr.ecr.ap-south-1.amazonaws.com/rajubk-bukli-app-repo:latest
+          ports:
+            - containerPort: 3000

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bukli-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+
+    # --- Key part: use your existing SG, don't let ALB controller create one ---
+    alb.ingress.kubernetes.io/security-groups: sg-004323e7adca165b2
+    alb.ingress.kubernetes.io/manage-backend-security-group-rules: "false"
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bukli-app-svc
+                port:
+                  number: 80
