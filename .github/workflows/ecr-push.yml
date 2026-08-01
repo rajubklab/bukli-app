@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: ${{ vars.AWS_REGION }} # Change to your AWS region.
-  ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }} # Change to your ECR repository name.
-  EKS_CLUSTER_NAME: ${{ vars.EKS_CLUSTER_NAME }} # Change to your EKS cluster name.
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: rajubk-bukli-app-repo
+  EKS_CLUSTER_NAME: rajubk-eks
 
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-to-assume: arn:aws:iam::767469526309:role/rajubk-github-action-role
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Verify AWS identity
